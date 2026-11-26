@@ -1,0 +1,10 @@
+# Aliases
+alias reload="exec zsh"
+alias config="vim ~/.zshrc"
+alias plugins="vim ~/.zsh_plugins.txt"
+alias home="cd ~"
+# Convenient aliases
+alias ls='ls -GF'
+alias ll='ls -lhGF'
+alias la='ls -lahGF'
+alias eaton='cd ~/Kunden\ \(OFFLINE\)/'

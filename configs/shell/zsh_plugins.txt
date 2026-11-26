@@ -1,0 +1,11 @@
+# Zsh completion helpers
+zsh-users/zsh-completions path:src kind:fpath
+
+# OMZ Git aliases and helpers without framework bloat
+ohmyzsh/ohmyzsh path:plugins/git
+
+# Fast command auto-suggestions based on history
+zsh-users/zsh-autosuggestions
+
+# Real-time syntax highlighting (Must be near the end of the file)
+zsh-users/zsh-syntax-highlighting

@@ -1,0 +1,91 @@
+# ==============================================================================
+# 1. Environment & Paths
+# ==============================================================================
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+
+# Add Homebrew to PATH (handles Apple Silicon /opt/homebrew and Intel /usr/local)
+if [[ -f "/opt/homebrew/bin/brew" ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -f "/usr/local/bin/brew" ]]; then
+  eval "$(/usr/local/bin/brew shellenv)"
+fi
+
+# Ensure user binaries take precedence
+export PATH="$HOME/.local/bin:$PATH"
+
+# ==============================================================================
+# 2. History Settings
+# ==============================================================================
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=50000
+setopt EXTENDED_HISTORY          # Write timestamp and elapsed time
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate event first when trimming
+setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded
+setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space
+setopt SHARE_HISTORY             # Share history across open terminal sessions
+
+# ==============================================================================
+# 3. Completion Engine (Prevents "compdef not found")
+# ==============================================================================
+# Cache compinit dump to speed up daily startup times (rebuild once a day)
+autoload -Uz compinit
+for dump in "$HOME/.zcompdump"(N.mh+24); do
+  compinit
+done
+compinit -C
+
+# Completion styling
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' # Case-insensitive matching
+
+# ==============================================================================
+# 4. Antidote Plugin Manager
+# ==============================================================================
+# Locate Antidote whether installed via Homebrew or git clone
+if [[ -d "${HOMEBREW_PREFIX}/opt/antidote" ]]; then
+  source "${HOMEBREW_PREFIX}/opt/antidote/share/antidote/antidote.zsh"
+elif [[ -f "$HOME/.antidote/antidote.zsh" ]]; then
+  source "$HOME/.antidote/antidote.zsh"
+fi
+
+# Initialize plugins from ~/.zsh_plugins.txt
+if command -v antidote >/dev/null 2>&1; then
+  antidote load
+fi
+
+# Enable colorized output for built-in ls (Dracula-tuned palette)
+export CLICOLOR=1
+export LSCOLORS="Gxfxcxdxbxegedabagacad"
+
+
+# ==============================================================================
+# 5. Shell Options & Convenience Keybindings
+# ==============================================================================
+# Up/Down arrow searches history matching already typed text
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey '^[[A' up-line-or-beginning-search
+bindkey '^[[B' down-line-or-beginning-search
+
+# ==============================================================================
+# 6. Prompt Initialization (Starship)
+# ==============================================================================
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi
+##################
+# Configurations #
+##################
+
+source ~/.config/zsh/zshrc_aliases
+
+
+fastfetch
+
+
+# Added by Antigravity CLI installer
+export PATH="$HOME/.local/bin:$PATH"
+export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock

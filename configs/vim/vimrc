@@ -1,0 +1,47 @@
+" Standardeinstellungen von Vim 9 laden (aktiviert u.a. syntax, incsearch, hlsearch)
+unlet! skip_defaults_vim
+source $VIMRUNTIME/defaults.vim
+
+" Dateityperkennung & intelligente Einrückung
+filetype plugin indent on
+
+" Zeilennummern und relative Nummern (extrem praktisch für Sprünge wie 5j / 10k)
+set number
+set relativenumber
+
+" macOS Zwischenablage: Ermöglicht 'y' und 'p' direkt mit der Mac-Zwischenablage zu teilen
+" (Voraussetzung: Vim wurde mit +clipboard kompiliert, z.B. via Homebrew)
+if has('clipboard')
+  set clipboard=unnamed
+endif
+
+" 24-Bit True Color für moderne macOS-Terminals (Ghostty, iTerm2, Alacritty, Kitty)
+if has('termguicolors')
+  set termguicolors
+endif
+
+" Einrückung: 4 Leerzeichen statt Tabs
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set smarttab
+
+" Navigation & Bildlauf
+set scrolloff=8
+set cursorline
+
+" Suche
+set ignorecase
+set smartcase
+
+" Tastenkürzel (Leader-Taste auf Leerzeichen legen)
+let mapleader = " "
+
+" Schnelles Aufheben der Suchmarkierung mit Leerzeichen + n
+nnoremap <leader>n :nohlsearch<CR>
+
+" Schnelleres Wechseln zwischen Splits mit Strg + hjkl
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
